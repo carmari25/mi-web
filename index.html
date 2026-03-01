@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNEFA · Portal trabajador</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9eef2 0%, #dbe0e6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* tarjeta principal – recrea el aspecto del portal */
+        .portal-card {
+            max-width: 1280px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 2rem 2rem 1.5rem 1.5rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 30, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        /* encabezado institucional */
+        .header-unefa {
+            background: #0b2c44;
+            /* azul patrio oscuro */
+            background: linear-gradient(135deg, #0a1f2e 0%, #123b56 100%);
+            padding: 1.2rem 2.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid #e6b422;
+            /* franja dorada */
+            color: white;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .universidad-titulo {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.02em;
+            line-height: 1.3;
+        }
+
+        .universidad-titulo span {
+            font-weight: 300;
+            font-size: 1rem;
+            display: block;
+            color: #f5e7c8;
+        }
+
+        .desde-1999 {
+            background-color: #e6b422;
+            color: #0b2c44;
+            font-weight: 700;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 6px;
+            align-self: flex-start;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .usuario-bar {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.5rem 1.3rem;
+            border-radius: 40px;
+            backdrop-filter: blur(3px);
+        }
+
+        .usuario-nombre {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .usuario-nombre i {
+            margin-right: 8px;
+            color: #e6b422;
+        }
+
+        .cerrar-sesion {
+            background: transparent;
+            border: 1.5px solid #ffcf7a;
+            color: #ffcf7a;
+            border-radius: 30px;
+            padding: 0.4rem 1.3rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cerrar-sesion:hover {
+            background: #ffcf7a;
+            color: #0b2c44;
+            border-color: #ffcf7a;
+        }
+
+        /* mensaje de bienvenida extra (opcional) */
+        .sub-header {
+            background-color: #fcf9f0;
+            padding: 0.6rem 2.2rem;
+            border-bottom: 1px solid #d8cfb0;
+            font-weight: 500;
+            color: #2d4a6e;
+            font-size: 0.95rem;
+        }
+
+        .sub-header i {
+            color: #b88b1f;
+            margin-right: 10px;
+        }
+
+        /* contenido principal con grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 500px;
+        }
+
+        /* panel lateral (Documentos de Interés + menú) */
+        .sidebar {
+            background: #f4f7fb;
+            border-right: 1px solid #cbd5e1;
+            padding: 2rem 1.2rem;
+            box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.02);
+        }
+
+        .sidebar-titulo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0b2c44;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.8rem;
+            border-left: 6px solid #e6b422;
+            padding-left: 0.8rem;
+        }
+
+        .menu-lateral {
+            list-style: none;
+        }
+
+        .menu-lateral li {
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-lateral a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.7rem 1rem;
+            color: #1e405e;
+            font-weight: 500;
+            border-radius: 14px;
+            transition: 0.15s;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .menu-lateral a i {
+            width: 22px;
+            color: #e6b422;
+            font-size: 1.1rem;
+        }
+
+        .menu-lateral a:hover {
+            background: #d9e2ef;
+            color: #0a2b42;
+        }
+
+        .menu-lateral .activo {
+            background: #cbddec;
+            font-weight: 600;
+            border-left: 4px solid #e6b422;
+            border-radius: 14px 8px 8px 14px;
+        }
+
+        /* sección principal derecha */
+        .contenido-principal {
+            background: #ffffff;
+            padding: 2rem 2.2rem;
+        }
+
+        .seccion-titulo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #0f3b55;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .seccion-titulo i {
+            color: #e6b422;
+            font-size: 2rem;
+        }
+
+        .badge-destacado {
+            background: #e6b422;
+            color: #0b2c44;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            margin-left: 15px;
+        }
+
+        .grupo-documentos {
+            background: #fafcff;
+            border-radius: 26px;
+            border: 1px solid #e2eaf1;
+            padding: 1.8rem 1.8rem 2rem;
+            margin: 2rem 0 2rem;
+            box-shadow: 0 8px 15px -8px rgba(0, 40, 60, 0.1);
+        }
+
+        .grupo-titulo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #133e59;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grupo-titulo i {
+            color: #e6b422;
+        }
+
+        .opciones-constancias {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2.8rem;
+        }
+
+        .radio-constancia {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #ffffff;
+            border: 1.5px solid #dce5ed;
+            border-radius: 60px;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .radio-constancia.selected {
+            border-color: #e6b422;
+            background: #fef9e7;
+            box-shadow: 0 4px 10px rgba(230, 180, 34, 0.15);
+        }
+
+        .radio-constancia input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #a6bbcc;
+            border-radius: 50%;
+            margin-right: 5px;
+            position: relative;
+            transition: 0.1s;
+        }
+
+        .radio-constancia input[type="radio"]:checked {
+            border-color: #e6b422;
+            background-color: #e6b422;
+            box-shadow: inset 0 0 0 4px white, 0 0 0 2px #e6b422;
+        }
+
+        .radio-constancia label {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #1d3b4e;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .radio-constancia i {
+            font-size: 1.6rem;
+            color: #2e5f86;
+            opacity: 0.7;
+        }
+
+        /* botón GENERAR */
+        .generar-container {
+            display: flex;
+            justify-content: flex-end;
+            border-top: 2px dashed #c0d0df;
+            padding-top: 2rem;
+            margin-top: 1rem;
+        }
+
+        .btn-generar {
+            background: #0f3b55;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1rem 3.5rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            letter-spacing: 4px;
+            box-shadow: 0 12px 15px -8px #0f3b5560;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 2px solid #e6b422;
+        }
+
+        .btn-generar:hover {
+            background: #1b5577;
+            transform: scale(1.02);
+            box-shadow: 0 16px 20px -8px #0b2c44;
+        }
+
+        .btn-generar i {
+            font-size: 2rem;
+            color: #e6b422;
+        }
+
+        /* tarjetas de info rápida (ARC, directorio) */
+        .info-extra {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .mini-card {
+            background: #f3f6fb;
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #d5e2ec;
+            font-weight: 600;
+            color: #10344b;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px #cddbe9;
+        }
+
+        .mini-card i {
+            font-size: 1.8rem;
+            color: #e6b422;
+        }
+
+        .footer-aclaracion {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #6a7c8d;
+            margin-top: 1.5rem;
+            border-top: 1px solid #dde3ea;
+            padding-top: 1rem;
+        }
+
+        /* responsividad */
+        @media (max-width: 850px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-unefa {
+                flex-direction: column;
+                align-items: start;
+                gap: 15px;
+            }
+
+            .btn-generar {
+                font-size: 1.5rem;
+                padding: 0.8rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="portal-card">
+
+        <!-- HEADER: Universidad y cierre de sesión -->
+        <div class="header-unefa">
+            <div class="logo-area">
+                <div class="universidad-titulo">
+                    UNIVERSIDAD NACIONAL EXPERIMENTAL POLITÉCNICA<br> DE LA FUERZA ARMADA NACIONAL BOLIVARIANA
+                    <span>DESDE 1999</span>
+                </div>
+                <div class="desde-1999">HERAKLI IS CEDEÑO</div>
+            </div>
+            <div class="usuario-bar">
+                <span class="usuario-nombre"><i class="fas fa-user-shield"></i> H. Cedeño</span>
+                <button class="cerrar-sesion" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- pequeña barra secundaria (simulando estado) -->
+        <div class="sub-header">
+            <i class="fas fa-address-card"></i> Bienvenido, tienes 3 documentos pendientes por descargar · ARC activo
+        </div>
+
+        <!-- CUERPO PRINCIPAL con sidebar y contenido -->
+        <div class="main-grid">
+            <!-- menú lateral "Documentos de Interés" -->
+            <div class="sidebar">
+                <div class="sidebar-titulo">Documentos de Interés</div>
+                <ul class="menu-lateral">
+                    <li><a href="#" class="activo"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> De Interés</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt"></i> Directorio</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
+                    <li><a href="#"><i class="fas fa-wallet"></i> Cuenta</a></li>
+                </ul>
+                <!-- mini accesos directos (para imitar los recuadros) -->
+                <div style="margin-top: 2.5rem;">
+                    <div style="font-weight:600; color:#1e4d6e; margin-bottom:10px;"><i class="fas fa-tools"></i> ARC
+                        rápido</div>
+                    <div class="mini-card" style="padding:0.7rem; background:#eef3f9;"><i class="fas fa-download"></i>
+                        Constancia work</div>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR DERECHO (Const. Trabajo, recibos, etc) -->
+            <div class="contenido-principal">
+                <div class="seccion-titulo">
+                    <i class="fas fa-file-contract"></i> Constancias y Recibos
+                    <span class="badge-destacado">trabajador</span>
+                </div>
+                <!-- grupo que engloba las opciones de constancias (simulando el recuadro gris de la imagen) -->
+                <div class="grupo-documentos">
+                    <div class="grupo-titulo">
+                        <i class="fas fa-briefcase"></i> Const. de Trabajo
+                        <span style="font-size:0.8rem; margin-left:auto; color:#507c9b;"><i class="far fa-clock"></i>
+                            actualizado 2026</span>
+                    </div>
+
+                    <!-- opciones de constancias con radio y texto exacto -->
+                    <div class="opciones-constancias" id="constanciaGroup">
+                        <!-- Constancia sin sueldo -->
+                        <div class="radio-constancia" id="opc1" data-value="sin-sueldo">
+                            <input type="radio" name="tipoConstancia" id="sinSueldo" value="sin-sueldo" checked>
+                            <label for="sinSueldo"><i class="fas fa-file-pdf" style="margin-right:10px;"></i> Constancia
+                                sin sueldo</label>
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <!-- Constancia con sueldo mensual -->
+                        <div class="radio-constancia" id="opc2" data-value="con-sueldo">
+                            <input type="radio" name="tipoConstancia" id="conSueldo" value="con-sueldo">
+                            <label for="conSueldo"><i class="fas fa-file-invoice-dollar" style="margin-right:10px;"></i>
+                                Constancia con sueldo mensual</label>
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+
+                    <!-- Texto Recibos de Pago + ARC (lo que aparece en el recuadro inferior de la imagen) -->
+                    <div
+                        style="display: flex; gap: 2rem; align-items: center; background: #ecf3fa; padding: 1.2rem 1.8rem; border-radius: 50px; margin: 1.2rem 0 1rem;">
+                        <span style="font-weight: 600;"><i class="fas fa-receipt"></i> Recibos de Pago</span>
+                        <span style="color: #2b5f7a;"><i class="fas fa-shield-alt"></i> ARC</span>
+                        <span
+                            style="margin-left: auto; font-size:0.9rem; background: #0b2c44; color: white; padding: 0.2rem 1rem; border-radius: 30px;">3
+                            nuevos</span>
+                    </div>
+
+                    <!-- Botón GENERAR (el protagonista) -->
+                    <div class="generar-container">
+                        <button class="btn-generar" id="generarBtn"><i class="fas fa-stamp"></i> GENERAR</button>
+                    </div>
+                </div>
+
+                <!-- extras: directorio / eventos en miniatura (para llenar espacio) -->
+                <div class="info-extra">
+                    <div class="mini-card"><i class="fas fa-address-book"></i> Directorio activo</div>
+                    <div class="mini-card"><i class="fas fa-calendar-check"></i> Evento: Consejo 03/03</div>
+                    <div class="mini-card"><i class="fas fa-file-signature"></i> ARC 2026-03</div>
+                </div>
+
+                <div class="footer-aclaracion">
+                    <i class="fas fa-print"></i> Sistema integrado UNEFA · Herakli Is Cedeño, C.I. 12.345.678
+                </div>
+            </div>
+        </div>
+        <!-- pequeña línea divisoria (opcional) -->
+        <div style="height: 6px; background: linear-gradient(90deg, #e6b422, #0b2c44, #e6b422);"></div>
+    </div>
+
+    <!-- JAVASCRIPT para interacción: selección de radio, cambio visual y alerta al generar -->
+    <script>
+        (function () {
+            // 1) Resaltar la opción seleccionada (cambiar clase .selected)
+            const radioConstancias = document.querySelectorAll('input[name="tipoConstancia"]');
+            const divOpciones = document.querySelectorAll('.radio-constancia');
+
+            function actualizarSeleccion() {
+                divOpciones.forEach(div => {
+                    const radio = div.querySelector('input[type="radio"]');
+                    if (radio && radio.checked) {
+                        div.classList.add('selected');
+                    } else {
+                        div.classList.remove('selected');
+                    }
+                });
+            }
+
+            // inicial: la primera opción (sin sueldo) debe aparecer seleccionada visualmente
+            actualizarSeleccion();
+
+            // añadir evento a cada radio
+            radioConstancias.forEach(radio => {
+                radio.addEventListener('change', actualizarSeleccion);
+            });
+
+            // también hacer clic en todo el div activa el radio (mejora UX)
+            divOpciones.forEach(div => {
+                div.addEventListener('click', function (e) {
+                    // evitar doble marca si se hace clic justo en el radio (ya funciona)
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        actualizarSeleccion();
+                    }
+                });
+            });
+
+            // 2) Botón GENERAR: muestra un mensaje con la opción elegida
+            const generarBtn = document.getElementById('generarBtn');
+            generarBtn.addEventListener('click', function () {
+                const seleccionado = document.querySelector('input[name="tipoConstancia"]:checked');
+                let mensaje = '';
+                if (seleccionado) {
+                    if (seleccionado.value === 'sin-sueldo') {
+                        mensaje = '⚡ Has generado una CONSTANCIA SIN SUELDO. (formato PDF descargado)';
+                    } else {
+                        mensaje = '💰 Has generado una CONSTANCIA CON SUELDO MENSUAL. (incluye detalle de haberes)';
+                    }
+                } else {
+                    mensaje = 'Por favor selecciona un tipo de constancia.';
+                }
+                alert(mensaje + ' // Simulación portal UNEFA');
+            });
+
+            // 3) Botón Cerrar sesión
+            const logoutBtn = document.getElementById('logoutBtn');
+            logoutBtn.addEventListener('click', function () {
+                if (confirm('¿Cerrar sesión? Volverás a la pantalla de ingreso (simulado).')) {
+                    // Pequeña acción simulada: cambiamos el nombre por "Sesión finalizada"
+                    document.querySelector('.usuario-nombre').innerHTML = '<i class="fas fa-user-lock"></i> Sesión off';
+                    logoutBtn.disabled = true;
+                    logoutBtn.style.opacity = '0.5';
+                    logoutBtn.innerHTML = 'Adiós';
+                    // También podemos desactivar botón generar
+                    generarBtn.disabled = true;
+                    generarBtn.style.opacity = '0.5';
+                    alert('Has cerrado sesión. Recarga la página para reiniciar demo.');
+                }
+            });
+
+            // 4) Hacer más real el menú lateral: resaltar "Inicio" al cargar (ya tiene clase activo)
+            // Al hacer clic en otros links, cambiaremos el activo (sencillo)
+            const menuLinks = document.querySelectorAll('.menu-lateral a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();  // evitar # real
+                    // remover activo de todos
+                    menuLinks.forEach(l => l.classList.remove('activo'));
+                    this.classList.add('activo');
+                });
+            });
+
+        })();
+    </script>
+
+    <!-- peqeña nota de recreación (no interfiere) -->
+    <div style="position: fixed; bottom: 10px; right: 20px; opacity:0.3; font-size:12px; color:#1f3a4c;">Recreación
+        digital · UNEFA portal · Herakli Cedeño · 2026</div>
+</body>
+
+</html>

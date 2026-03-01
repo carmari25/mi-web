@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNEFA · Portal institucional (menú horizontal)</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #eef2f6;
+            /* gris muy suave de fondo */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* tarjeta principal */
+        .portal-card {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(10, 50, 90, 0.25);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* HEADER AZUL REY con degradado sutil */
+        .header-unefa {
+            background: #003366;
+            /* color de respaldo */
+            background-image: url('images.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0.9rem 2.2rem 0.5rem 2.2rem;
+            color: white;
+            border-bottom: 3px solid #fcb421;
+        }
+
+        /* franja superior con logo y usuario */
+        .top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .universidad-titulo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+
+        .universidad-titulo span {
+            font-weight: 300;
+            font-size: 0.9rem;
+            display: block;
+            color: #fadf9e;
+        }
+
+        .desde-1999 {
+            background: #fcb421;
+            color: #002244;
+            font-weight: 800;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .usuario-area {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+
+        .usuario-nombre {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .usuario-nombre i {
+            color: #fcb421;
+            margin-right: 8px;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: 1.8px solid #fcb421;
+            color: #fcb421;
+            border-radius: 30px;
+            padding: 0.3rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #fcb421;
+            color: #002244;
+        }
+
+        /* MENÚ HORIZONTAL (azul rey más oscuro, gris blanco en hover) */
+        .menu-horizontal {
+            background: #002b4d;
+            /* azul rey profundo */
+            border-radius: 50px 50px 12px 12px;
+            padding: 0.2rem 1rem;
+            margin-top: 0.4rem;
+            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-lista {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.2rem;
+        }
+
+        .menu-lista li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1.4rem;
+            color: #f0f6ff;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 40px;
+            transition: 0.2s ease;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            border: 1px solid transparent;
+        }
+
+        .menu-lista li a i {
+            color: #fcb421;
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .menu-lista li a:hover {
+            background: #eef3fc;
+            /* blanco-grisáceo */
+            color: #002244;
+            border-color: #c0d0e0;
+        }
+
+        .menu-lista li a:hover i {
+            color: #003366;
+        }
+
+        .menu-lista .activo {
+            background: #f5f9ff;
+            color: #002244;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-lista .activo i {
+            color: #003366;
+        }
+
+        /* contenido principal ahora con más blanco y grises */
+        .contenido-general {
+            padding: 2rem 2.5rem 2rem 2.5rem;
+            background: #ffffff;
+        }
+
+        /* migas o subheader gris claro */
+        .sub-header {
+            background: #f2f5f9;
+            /* gris muy claro */
+            padding: 0.7rem 2.5rem;
+            border-bottom: 1px solid #dbe0e6;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #1f4a6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .sub-header i {
+            color: #fcb421;
+        }
+
+        /* bloque de bienvenida */
+        .welcome-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .page-title {
+            font-size: 1.9rem;
+            font-weight: 650;
+            color: #002b4d;
+        }
+
+        .page-title i {
+            color: #fcb421;
+            margin-right: 12px;
+        }
+
+        .badge-arc {
+            background: #e9eff7;
+            color: #003d66;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid #b9cfec;
+            font-size: 0.9rem;
+        }
+
+        /* tarjeta documentos (fondo gris humo) */
+        .card-documentos {
+            background: #f8fafd;
+            /* gris blanco */
+            border-radius: 2rem;
+            border: 1px solid #d4e0ec;
+            padding: 2rem 2rem 1.8rem;
+            box-shadow: 0 10px 20px -12px #9bb0c9;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.6rem;
+            font-weight: 650;
+            color: #002244;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header h2 i {
+            color: #fcb421;
+            font-size: 2rem;
+        }
+
+        .recibo-mini {
+            background: white;
+            padding: 0.5rem 1.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #004b7a;
+            border: 1px solid #c9daf0;
+            box-shadow: 0 2px 4px #d9e2ec;
+        }
+
+        /* opciones de constancia estilo radio horizontal? pero mantenemos vertical para claridad */
+        .constancia-opciones {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1.5px solid #d7e1ec;
+            border-radius: 60px;
+            padding: 0.6rem 1.8rem 0.6rem 1.5rem;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 2px 5px #ebf0f6;
+        }
+
+        .radio-item.selected {
+            border-color: #fcb421;
+            background: #fff7e6;
+            box-shadow: 0 6px 12px rgba(252, 180, 33, 0.15);
+        }
+
+        .radio-item input[type="radio"] {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #9eb7d0;
+            border-radius: 50%;
+            margin-right: 18px;
+            transition: 0.1s;
+        }
+
+        .radio-item input[type="radio"]:checked {
+            border-color: #fcb421;
+            background-color: #fcb421;
+            box-shadow: inset 0 0 0 5px white, 0 0 0 2px #fcb421;
+        }
+
+        .radio-item label {
+            font-size: 1.2rem;
+            font-weight: 550;
+            color: #1a3b54;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .radio-item .ico-right {
+            font-size: 2rem;
+            color: #6585a6;
+            opacity: 0.8;
+        }
+
+        /* fila de recibos y ARC */
+        .row-arc {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            background: white;
+            border-radius: 60px;
+            padding: 0.8rem 2rem;
+            margin: 2rem 0 2.2rem;
+            border: 1px solid #ccddef;
+        }
+
+        .row-arc span {
+            font-weight: 600;
+            color: #00447a;
+        }
+
+        .row-arc i {
+            color: #fcb421;
+            margin-right: 8px;
+        }
+
+        .badge-noti {
+            background: #003a66;
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* botón GENERAR */
+        .generar-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            border-top: 2px solid #d7e3f0;
+            padding-top: 2rem;
+        }
+
+        .btn-generar {
+            background: #002b4d;
+            border: none;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1rem 4rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            letter-spacing: 5px;
+            box-shadow: 0 15px 20px -10px #001f33;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid #fcb421;
+        }
+
+        .btn-generar:hover {
+            background: #124d77;
+            transform: scale(1.01);
+            box-shadow: 0 20px 25px -8px #002b44;
+        }
+
+        .btn-generar i {
+            font-size: 2.4rem;
+            color: #fcb421;
+        }
+
+        /* mini tarjetas inferiores (grises) */
+        .info-cards {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background: #f0f4fa;
+            /* gris con tinte azul */
+            border-radius: 40px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            color: #002b4d;
+            border: 1px solid #cbdae8;
+            box-shadow: 0 4px 8px #e0e9f2;
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            color: #fcb421;
+        }
+
+        .footer-note {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #6b83a0;
+            margin-top: 2rem;
+            border-top: 1px dashed #b0c7de;
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 800px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+
+            .menu-lista {
+                justify-content: center;
+            }
+
+            .btn-generar {
+                font-size: 1.5rem;
+                padding: 0.8rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="portal-card">
+
+        <!-- HEADER con degradé azul rey y menú horizontal -->
+        <div class="header-unefa">
+            <!-- línea superior: logo y usuario -->
+            <div class="top-bar">
+                <div class="logo-area">
+                    <div class="universidad-titulo">
+                        UNIVERSIDAD NACIONAL EXPERIMENTAL POLITÉCNICA<br> DE LA FUERZA ARMADA NACIONAL BOLIVARIANA
+                        <span>DESDE 1999</span>
+                    </div>
+                    <div class="desde-1999">HERAKLI IS CEDEÑO</div>
+                </div>
+                <div class="usuario-area">
+                    <span class="usuario-nombre"><i class="fas fa-user-circle"></i> Herakli Cedeño</span>
+                    <button class="btn-close" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Cerrar</button>
+                </div>
+            </div>
+
+            <!-- MENÚ HORIZONTAL (azul rey con hover gris/blanco) -->
+            <nav class="menu-horizontal">
+                <ul class="menu-lista">
+                    <li><a href="#" class="activo"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> De Interés</a></li>
+                    <li><a href="#"><i class="fas fa-file-alt"></i> Documentos</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt"></i> Directorio</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
+                    <li><a href="#"><i class="fas fa-wallet"></i> Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- barra secundaria gris claro (migas) -->
+        <div class="sub-header">
+            <i class="fas fa-address-card"></i> Acceso rápido: Constancias / Recibos de pago / ARC
+            <span
+                style="margin-left: auto; font-size:0.9rem; background: #d4e0f0; padding:0.2rem 1rem; border-radius: 40px; color:#003366;"><i
+                    class="far fa-bell"></i> 2 novedades</span>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL con fondo blanco y grises -->
+        <div class="contenido-general">
+            <!-- título de página e indicador ARC -->
+            <div class="welcome-block">
+                <div class="page-title">
+                    <i class="fas fa-file-signature"></i> Módulo de constancias
+                </div>
+                <div class="badge-arc"><i class="fas fa-shield-alt"></i> ARC activo · 2026</div>
+            </div>
+
+            <!-- bloque que agrupa las constancias estilo "Documentos de Interés" -->
+            <div class="card-documentos">
+                <div class="card-header">
+                    <h2><i class="fas fa-briefcase"></i> Const. de Trabajo</h2>
+                    <div class="recibo-mini"><i class="fas fa-receipt"></i> Recibos de Pago</div>
+                </div>
+
+                <!-- opciones de constancia con radio (exactamente como pide la imagen) -->
+                <div class="constancia-opciones" id="grupoConstancia">
+                    <!-- constancia sin sueldo -->
+                    <div class="radio-item selected" id="opcSin" data-value="sin-sueldo">
+                        <input type="radio" name="tipoConstancia" id="sinSueldo" value="sin-sueldo" checked>
+                        <label for="sinSueldo"><i class="fas fa-file-pdf" style="margin-right: 12px;"></i> Constancia
+                            sin sueldo</label>
+                        <i class="fas fa-user-graduate ico-right"></i>
+                    </div>
+                    <!-- constancia con sueldo mensual -->
+                    <div class="radio-item" id="opcCon" data-value="con-sueldo">
+                        <input type="radio" name="tipoConstancia" id="conSueldo" value="con-sueldo">
+                        <label for="conSueldo"><i class="fas fa-file-invoice-dollar" style="margin-right: 12px;"></i>
+                            Constancia con sueldo mensual</label>
+                        <i class="fas fa-coins ico-right"></i>
+                    </div>
+                </div>
+
+                <!-- fila Recibos + ARC (para mantener el concepto) -->
+                <div class="row-arc">
+                    <span><i class="fas fa-receipt"></i> Recibos de Pago · 3 pendientes</span>
+                    <span><i class="fas fa-shield-alt"></i> ARC (seguro)</span>
+                    <span class="badge-noti"><i class="fas fa-download"></i> constancia work</span>
+                </div>
+
+                <!-- botón GENERAR -->
+                <div class="generar-wrapper">
+                    <button class="btn-generar" id="generarBtn"><i class="fas fa-stamp"></i> GENERAR</button>
+                </div>
+            </div>
+
+            <!-- tarjetas informativas con fondo gris (Directorio / Eventos / Cuenta) -->
+            <div class="info-cards">
+                <div class="info-card"><i class="fas fa-address-book"></i> Directorio general</div>
+                <div class="info-card"><i class="fas fa-calendar-check"></i> Evento: Asamblea 05/03</div>
+                <div class="info-card"><i class="fas fa-credit-card"></i> Cuenta: H. Cedeño</div>
+            </div>
+
+            <!-- pie de página interno -->
+            <div class="footer-note">
+                <i class="fas fa-print"></i> Herakli Is Cedeño · C.I. 12.345.678 · UNEFA portal trabajador
+            </div>
+        </div>
+        <!-- línea decorativa inferior -->
+        <div style="height: 5px; background: linear-gradient(90deg, #fcb421, #003366, #fcb421);"></div>
+    </div>
+
+    <!-- JAVASCRIPT para la interacción: radio, resaltado, botones -->
+    <script>
+        (function () {
+            // 1) Resaltar radio seleccionado (cambiar clase .selected)
+            const radios = document.querySelectorAll('input[name="tipoConstancia"]');
+            const items = document.querySelectorAll('.radio-item');
+
+            function actualizarSeleccion() {
+                items.forEach(item => {
+                    const radio = item.querySelector('input[type="radio"]');
+                    if (radio && radio.checked) {
+                        item.classList.add('selected');
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+            }
+
+            // estado inicial
+            actualizarSeleccion();
+
+            // evento change en radios
+            radios.forEach(r => r.addEventListener('change', actualizarSeleccion));
+
+            // click en todo el item selecciona el radio
+            items.forEach(item => {
+                item.addEventListener('click', function (e) {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        actualizarSeleccion();
+                    }
+                });
+            });
+
+            // 2) Botón GENERAR
+            const generar = document.getElementById('generarBtn');
+            generar.addEventListener('click', () => {
+                const seleccion = document.querySelector('input[name="tipoConstancia"]:checked');
+                let msg = '';
+                if (seleccion.value === 'sin-sueldo') {
+                    msg = '📄 CONSTANCIA SIN SUELDO generada (formato PDF).';
+                } else {
+                    msg = '💰 CONSTANCIA CON SUELDO MENSUAL generada (incluye haberes).';
+                }
+                alert(msg + '  [Simulación portal UNEFA]');
+            });
+
+            // 3) Cerrar sesión
+            const logout = document.getElementById('logoutBtn');
+            logout.addEventListener('click', () => {
+                if (confirm('¿Finalizar sesión? Se desactivará el acceso.')) {
+                    document.querySelector('.usuario-nombre').innerHTML = '<i class="fas fa-user-lock"></i> Sesión inactiva';
+                    logout.disabled = true;
+                    logout.style.opacity = 0.5;
+                    logout.innerHTML = 'Offline';
+                    generar.disabled = true;
+                    generar.style.opacity = 0.5;
+                    alert('Sesión cerrada. Recarga para reiniciar demo.');
+                }
+            });
+
+            // 4) menú horizontal: cambiar activo al hacer clic
+            const menuLinks = document.querySelectorAll('.menu-lista a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    menuLinks.forEach(l => l.classList.remove('activo'));
+                    this.classList.add('activo');
+                });
+            });
+        })();
+    </script>
+    <!-- nota de autoría (opcional) -->
+    <div style="position: fixed; bottom: 8px; right: 25px; opacity:0.3; font-size:12px; color:#1e3c5a;">diseño con menú
+        horizontal · azul rey · grises</div>
+</body>
+
+</html>
